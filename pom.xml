@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>4.1.0</version>
+    <!-- lookup parent from repository -->
+  </parent>
+
+  <groupId>dev.springpr.ai</groupId>
+  <artifactId>springpr-ai-parent</artifactId>
+  <version>${revision}</version>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>springpr-ai-mcp-github</module>
+    <module>springpr-ai-mcp-meetingscheduler</module>
+    <module>springpr-ai-vectordb-etl</module>
+    <module>springpr-ai-chatclient</module>
+  </modules>
+
+  <distributionManagement>
+    <repository>
+      <id>corporate</id>
+      <url>https://artifactory.aexp.com/corporate/</url>
+    </repository>
+
+    <snapshotRepository>
+      <id>snapshots</id>
+      <url>https://artifactory.aexp.com/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <properties>
+    <java.release.version>21</java.release.version>
+    <maven.compiler.release>${java.release.version}</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <revision>0.0.2-SNAPSHOT</revision>
+    <spring-boot.version>4.1.0</spring-boot.version>
+    <spring-ai.version>2.0.0</spring-ai.version>
+    <springdoc-openapi-bom.version>3.0.3</springdoc-openapi-bom.version>
+
+    <spotless-maven-plugin.version>3.4.0</spotless-maven-plugin.version>
+    <error_prone_core.version>2.50.0</error_prone_core.version>
+    <nullaway.version>0.13.7</nullaway.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.ai</groupId>
+        <artifactId>spring-ai-bom</artifactId>
+        <version>${spring-ai.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- Remove dependencies on logback -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter</artifactId>
+        <version>${spring-boot.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+        <version>${spring-boot.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <!-- API Documentation -->
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-bom</artifactId>
+        <version>${springdoc-openapi-bom.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.ai</groupId>
+      <artifactId>spring-ai-starter-mcp-server-webmvc</artifactId>
+    </dependency>
+
+    <!-- Lombok -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- logging -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+    </dependency>
+    <!-- log JSON generating layout -->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-layout-template-json</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    </dependency>
+
+    <!--
+    The spring-boot-configuration-processor is an annotation processor used to generate 
+    configuration metadata (a META-INF/spring-configuration-metadata.json file) for your 
+    custom @ConfigurationProperties classes. This metadata is consumed by IDEs (like 
+    Eclipse and IntelliJ) to provide helpful auto-completion and documentation hints when 
+    you edit application.properties or application.yml files.
+    -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <scope>runtime</scope>
+      <optional>true</optional>
+    </dependency>
+
+    <!-- Testing dependencies -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-webmvc-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.ai</groupId>
+      <artifactId>spring-ai-spring-boot-testcontainers</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Used by IDEs -->
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>corporate</id>
+      <url>https://artifactory.aexp.com/corporate</url>
+    </repository>
+    <repository>
+      <id>central</id>
+      <url>https://artifactory.aexp.com/iq-maven-central-proxy/</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>corporate</id>
+      <url>https://artifactory.aexp.com/corporate</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>central</id>
+      <url>https://artifactory.aexp.com/iq-maven-central-proxy/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <compilerArgs>
+              <arg>-XDcompilePolicy=simple</arg>
+              <arg>--should-stop=ifError=FLOW</arg>
+              <arg>-Xplugin:ErrorProne -XepOpt:NullAway:AnnotatedPackages=com.uber</arg>
+            </compilerArgs>
+            <annotationProcessorPaths>
+              <path>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.46</version>
+              </path>
+              <path>
+                <groupId>com.google.errorprone</groupId>
+                <artifactId>error_prone_core</artifactId>
+                <version>${error_prone_core.version}</version>
+              </path>
+              <path>
+                <groupId>com.uber.nullaway</groupId>
+                <artifactId>nullaway</artifactId>
+                <version>${nullaway.version}</version>
+              </path>
+            </annotationProcessorPaths>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>flatten-maven-plugin</artifactId>
+          <version>1.7.3</version>
+          <!-- Check for the latest version -->
+          <executions>
+            <execution>
+              <id>flatten</id>
+              <goals>
+                <goal>flatten</goal>
+              </goals>
+              <phase>process-resources</phase>
+            </execution>
+            <execution>
+              <id>flatten.clean</id>
+              <goals>
+                <goal>clean</goal>
+              </goals>
+              <phase>clean</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+            <testFailureIgnore>false</testFailureIgnore>
+            <forkCount>0</forkCount>
+            <argLine>@{argLine}
+            -Xmx2048m -XX:MaxMetaspaceSize=256m
+            -XX:+EnableDynamicAgentLoading
+            -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
+            -Xshare:off
+            -Djavax.net.ssl.trustStore=${env.JAVA_CERTS}</argLine>
+            <systemPropertyVariables>
+              <javax.net.ssl.trustStorePassword>changeit</javax.net.ssl.trustStorePassword>
+              <jdk.internal.httpclient.disableHostnameVerification>true</jdk.internal.httpclient.disableHostnameVerification>
+              <jdk.instrument.traceUsage></jdk.instrument.traceUsage>
+            </systemPropertyVariables>
+            <excludes>
+              <exclude>*Validation.java</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>com.diffplug.spotless</groupId>
+          <artifactId>spotless-maven-plugin</artifactId>
+          <version>${spotless-maven-plugin.version}</version>
+          <configuration>
+            <!-- optional: limit format enforcement to just the files changed by this feature branch
+        <ratchetFrom>origin/main</ratchetFrom> -->
+            <skip>${spotless-maven-plugin.skip}</skip>
+            <formats>
+              <!-- you can define as many formats as you want, each is independent -->
+              <format>
+                <!-- define the files to apply to -->
+                <includes>
+                  <include>.gitignore</include>
+                  <include>Jenkinsfile</include>
+                  <include>jvm.config</include>
+                  <include>**/*.md</include>
+                  <include>**/*.xml</include>
+                  <include>**/*.yaml</include>
+                  <include>**/*.yml</include>
+                </includes>
+                <excludes>
+                  <exclude>pom.xml</exclude>
+                  <exclude>.flattened-pom.xml</exclude>
+                  <exclude>**/target/**/*</exclude>
+                  <exclude>.idea/**</exclude>
+                  <exclude>.git/**</exclude>
+                  <exclude>.openshift/**</exclude>
+                  <exclude>setup/**</exclude>
+                  <exclude>bin/**</exclude>
+                </excludes>
+
+                <!-- define the steps to apply to those files -->
+                <trimTrailingWhitespace></trimTrailingWhitespace>
+                <endWithNewline></endWithNewline>
+                <indent>
+                  <spaces>true</spaces>
+                  <spacesPerTab>4</spacesPerTab>
+                </indent>
+
+                <replace>
+                  <!-- specify replacements using search and replace -->
+                  <name>Say Hello to Mars</name>
+                  <search>Mars</search>
+                  <replacement>Mars</replacement>
+                </replace>
+
+                <replaceRegex>
+                  <!-- specify replacements using regex match and replace -->
+                  <name>Say Hello to Mars from Regex</name>
+                  <searchRegex>(Hello) W[a-z]{3}d</searchRegex>
+                  <replacement>$1 Mars</replacement>
+                </replaceRegex>
+              </format>
+            </formats>
+            <!-- define a language-specific format -->
+            <pom>
+              <!-- These are the defaults, you can override if you want -->
+              <includes>
+                <include>pom.xml</include>
+              </includes>
+              <sortPom>
+                <encoding>UTF-8</encoding>
+                <!-- The encoding of the pom files -->
+                <lineSeparator>${line.separator}</lineSeparator>
+                <!-- line separator to use -->
+                <expandEmptyElements>true</expandEmptyElements>
+                <!-- Should empty elements be expanded-->
+                <spaceBeforeCloseEmptyElement>false</spaceBeforeCloseEmptyElement>
+                <!-- Should a space be added inside self-closing elements-->
+                <keepBlankLines>true</keepBlankLines>
+                <!-- Keep empty lines -->
+                <nrOfIndentSpace>2</nrOfIndentSpace>
+                <!-- Indentation -->
+                <indentBlankLines>false</indentBlankLines>
+                <!-- Should empty lines be indented -->
+                <indentSchemaLocation>false</indentSchemaLocation>
+                <!-- Should schema locations be indended -->
+                <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
+                <!-- Sort order of elements: https://github.com/Ekryd/sortpom/wiki/PredefinedSortOrderProfiles-->
+                <sortOrderFile></sortOrderFile>
+                <!-- Custom sort order of elements: https://raw.githubusercontent.com/Ekryd/sortpom/master/sorter/src/main/resources/custom_1.xml -->
+                <sortDependencies></sortDependencies>
+                <!-- Sort dependencies: https://github.com/Ekryd/sortpom/wiki/SortDependencies-->
+                <sortDependencyExclusions></sortDependencyExclusions>
+                <!-- Sort dependency exclusions: https://github.com/Ekryd/sortpom/wiki/SortDependencies-->
+                <sortPlugins></sortPlugins>
+                <!-- Sort plugins: https://github.com/Ekryd/sortpom/wiki/SortPlugins -->
+                <sortProperties>false</sortProperties>
+                <!-- Sort properties -->
+                <sortModules>false</sortModules>
+                <!-- Sort modules -->
+                <sortExecutions>false</sortExecutions>
+                <!-- Sort plugin executions -->
+              </sortPom>
+            </pom>
+
+            <java>
+              <!-- These are the defaults, you can override if you want -->
+              <includes>
+                <include>src/main/java/**/*.java</include>
+                <include>src/test/java/**/*.java</include>
+              </includes>
+
+              <!-- apply a specific flavor of google-java-format and reflow long strings -->
+              <googleJavaFormat>
+                <version>${google-java-format.version}</version>
+                <style>AOSP</style>
+                <reflowLongStrings>true</reflowLongStrings>
+              </googleJavaFormat>
+
+              <importOrder>
+                <!-- or a custom ordering -->
+                <wildcardsLast>true</wildcardsLast>
+                <!-- Optional, default false. Sort wildcard import after specific imports -->
+                <order>java|javax,org,com,,com.aexp,\#,\#com.aexp</order>
+                <!-- or use <file>${project.basedir}/eclipse.importorder</file> -->
+                <!-- you can use an empty string for all the imports you didn't specify explicitly,
+                   '|' to join group without blank line, and '\#` prefix for static imports. -->
+              </importOrder>
+
+              <!-- self-explanatory -->
+              <removeUnusedImports></removeUnusedImports>
+              <forbidWildcardImports></forbidWildcardImports>
+
+              <formatAnnotations></formatAnnotations>
+              <!-- fixes formatting of type annotations, see below -->
+
+              <!-- make sure every file has the following copyright header.
+                 optionally, Spotless can set copyright years by digging
+                 through git history (see "license" section below) -->
+              <licenseHeader>
+                <content><![CDATA[
+/*
+ * Copyright 2025 American Express Travel Related Services Company, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+]]></content>
+                <!-- or <file>${project.basedir}/documents/license-header</file> -->
+              </licenseHeader>
+            </java>
+
+            <json>
+              <includes>
+                <!-- You have to set the target manually -->
+                <include>src/**/*.json</include>
+              </includes>
+
+              <trimTrailingWhitespace></trimTrailingWhitespace>
+              <endWithNewline></endWithNewline>
+              <indent>
+                <spaces>true</spaces>
+                <spacesPerTab>4</spacesPerTab>
+              </indent>
+              <jackson>
+                <features>
+                  <!-- optional: Customize the set of features (based on com.fasterxml.jackson.databind.SerializationFeature) -->
+                  <INDENT_OUTPUT>true</INDENT_OUTPUT>
+                  <!-- true by default -->
+                  <ORDER_MAP_ENTRIES_BY_KEYS>false</ORDER_MAP_ENTRIES_BY_KEYS>
+                  <!-- false by default -->
+                </features>
+              </jackson>
+            </json>
+
+            <sql>
+              <!-- You have to set the target manually -->
+              <includes>
+                <include>src/main/**/*.sql</include>
+              </includes>
+
+              <trimTrailingWhitespace></trimTrailingWhitespace>
+              <endWithNewline></endWithNewline>
+              <indent>
+                <spaces>true</spaces>
+                <spacesPerTab>4</spacesPerTab>
+              </indent>
+
+              <dbeaver>
+                <!-- optional 
+              <configFile>dbeaver.properties</configFile>
+              -->
+              </dbeaver>
+            </sql>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>
