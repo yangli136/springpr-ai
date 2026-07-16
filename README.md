@@ -16,7 +16,7 @@ This application is an out-of-box working test bed for the following GenAI compo
 
 ## Architecture
 
-![Architecture](documents/GENAI_ARCHITECTURE.png)
+![Architecture](documentation/GENAI_ARCHITECTURE.png)
 
 ## Contributing
 
