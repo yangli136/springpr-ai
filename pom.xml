@@ -18,6 +18,7 @@
     <module>springpr-ai-mcp-meetingscheduler</module>
     <module>springpr-ai-vectordb-etl</module>
     <module>springpr-ai-chatclient</module>
+    <module>springpr-ai-agent</module>
   </modules>
 
   <distributionManagement>
