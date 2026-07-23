@@ -1,0 +1,4 @@
+login=username
+# READ_ONLY
+oauth=github_pat_xxx
+endpoint=https://github.yourcompany.com/api/v3
