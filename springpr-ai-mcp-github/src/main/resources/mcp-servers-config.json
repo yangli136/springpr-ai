@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "mcp": {
+      "command": "java",
+      "args": [ "-Dspring.ai.mcp.server.stdio=true", "-Dspring.main.web-application-type=none", "-Dlogging.pattern.console=", "-jar", "/Users/yli25/Downloads/Work/GitHubMCP-main/target/GitHubMCP-1.0-SNAPSHOT.jar" ],
+      "env": {
+        "GITHUB_TOKEN": "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",
+        "GITHUB_HOST": "https://github.aexp.com/api/v3",
+        "GITHUB_REPOSITORY": "yli25/springpr-batch"
+      }
+    }
+  }
+}
