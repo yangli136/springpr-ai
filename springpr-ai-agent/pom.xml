@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                              https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>dev.springpr.ai</groupId>
+    <artifactId>springpr-ai-parent</artifactId>
+    <version>${revision}</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>springpr-ai-agent-parent</artifactId>
+  <packaging>pom</packaging>
+  <description>Demo project for Spring Boot AI Agent</description>
+
+  <modules>
+    <module>springpr-ai-agent-client</module>
+    <module>springpr-ai-agent-server</module>
+  </modules>
+
+  <properties>
+    <!-- ACP SDK version -->
+    <acp.version>0.14.0</acp.version>
+    <exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
+  </properties>
+
+  <dependencies>
+
+    <!-- ACP Client SDK -->
+    <dependency>
+      <groupId>com.agentclientprotocol</groupId>
+      <artifactId>acp-core</artifactId>
+      <version>${acp.version}</version>
+    </dependency>
+
+    <!-- Logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>${exec-maven-plugin.version}</version>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>
