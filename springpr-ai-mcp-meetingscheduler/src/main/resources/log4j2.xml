@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+  <Properties>
+    <Property name="text.log.pattern">%d{yyyy-MM-HH:mm:ss.SSS} [%t] - %MDC{HOSTNAME,APPLICATION,CORRELATION_ID,MESSAGE_ID}, trace_id=%X{trace_id} span_id=%X{span_id} trace_flags=%X{trace_flags} %highlight{%level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green, DEBUG=blue} %c{3} - %m%n</Property>
+  </Properties>
+
+  <Appenders>
+    <Console name="console" target="SYSTEM_OUT">
+      <PatternLayout pattern="${text.log.pattern}" />
+    </Console>
+    <OpenTelemetry name="OpenTelemetryAppender" captureMarkerAttribute="true" captureContextDataAttributes="*" captureMapMessageAttributes="true" captureExperimentalAttributes="true" captureCodeAttributes="false" numLogsCapturedBeforeOtelInstall="1000"/>
+  </Appenders>
+
+  <Loggers>
+    <Root level="info" additivity="false">
+      <AppenderRef ref="OpenTelemetryAppender" />
+      <AppenderRef ref="console" />
+    </Root>
+  </Loggers>
+
+</Configuration>
